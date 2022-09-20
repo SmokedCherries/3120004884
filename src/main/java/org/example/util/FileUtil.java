@@ -2,37 +2,48 @@ package org.example.util;
 
 import java.io.*;
 
+import java.io.*;
+
+/**
+ * 读写txt文件的工具类
+ */
 public class FileUtil {
 
-    public static String readFile(String path) throws IOException {
-        File file = new File(path);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader br = new BufferedReader(fileReader);
-        StringBuilder sb = new StringBuilder();
-        String temp = "";
-        while ((temp = br.readLine()) != null) {
-            sb.append(temp + "\n");
+    public static String readFile(String txtPath) {
+        String str = "";
+        String strLine;
+        // 将 txt文件按行读入 str中
+        File file = new File(txtPath);
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            // 字符串拼接
+            while ((strLine = bufferedReader.readLine()) != null) {
+                str += strLine;
+            }
+            // 关闭资源
+            inputStreamReader.close();
+            bufferedReader.close();
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        br.close();
-        String text = sb.toString();
-        return sb.toString();
+        return str;
     }
 
-    public static void writeFile(String path,double similarity){
+    public static void writeFile(double txtElem,String txtPath){
+        String str = Double.toString(txtElem);
+        str="查重率为："+str;
+        File file = new File(txtPath);
+        FileWriter fileWriter = null;
         try {
-            File file;
-            file = new File(path);
-            if (!file.exists()){
-                file.createNewFile();
-                file = new File(path);
-            }
-            FileWriter fw = new FileWriter(file,true);
-            BufferedWriter writer = new BufferedWriter(fw);
-            writer.write(String.format("%.2f",similarity));
-            writer.flush();
-            writer.newLine();
-            writer.close();
-            fw.close();
+            fileWriter = new FileWriter(file, true);
+            fileWriter.write(str, 0, (str.length() > 13 ? 14 : str.length()));
+            fileWriter.write("\r\n");
+            // 关闭资源
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

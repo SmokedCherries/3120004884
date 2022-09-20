@@ -6,15 +6,12 @@ import org.example.util.FileUtil;
 import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
-        String origFile = null;
-        String inFile = null;
-        try {
-            origFile = FileUtil.readFile(args[0]);
-            inFile = FileUtil.readFile(args[1]);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        double result = SimHash.GetSimilarity(origFile,inFile);
-        FileUtil.writeFile(args[2],result);
+        String origFile = FileUtil.readFile(args[0]);
+        String inFile = FileUtil.readFile(args[1]);
+        String simhash1 = SimHash.GetSimHash(origFile);
+        String simhash2 = SimHash.GetSimHash(inFile);
+        double result = SimHash.GetSimilarity(simhash1,simhash2);
+        FileUtil.writeFile(result,args[2]);
+        System.exit(0);
     }
 }

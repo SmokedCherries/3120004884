@@ -37,13 +37,11 @@ public class SimHash {
         int i = 0;
         for (String keyword : keywordList) {
             // 2、获取hash值
-            String keywordHash = GetHash(keyword);
+            StringBuilder keywordHash = new StringBuilder(GetHash(keyword));
             if (keywordHash.length() < 128) {
                 // hash值可能少于128位，在低位以0补齐
                 int dif = 128 - keywordHash.length();
-                for (int j = 0; j < dif; j++) {
-                    keywordHash += "0";
-                }
+                keywordHash.append("0".repeat(Math.max(0, dif)));
             }
             // 3、加权
             for (int j = 0; j < v.length; j++) {
@@ -56,17 +54,17 @@ public class SimHash {
             i++;
         }
         // 4、降维
-        String simHash = "";
+        StringBuilder simHash = new StringBuilder();
         int j = 0;
         while (j < v.length) {
             if (v[j] <= 0) {
-                simHash += "0";
+                simHash.append("0");
             } else {
-                simHash += "1";
+                simHash.append("1");
             }
             j++;
         }
-        return simHash;
+        return simHash.toString();
     }
     public static int GetHammingDistance(String simHash1, String simHash2) {
         //定义返回的海明距离
@@ -89,6 +87,6 @@ public class SimHash {
         // 通过 simHash1 和 simHash2 获得它们的海明距离
         int distance = GetHammingDistance(simHash1, simHash2);
         // 通过海明距离计算出相似度，并返回
-        return 0.01 * (100 - distance * 100 / 128);
+        return 0.01 * (100 - distance * (100 / 128)*1.0);
     }
 }

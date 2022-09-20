@@ -3,6 +3,7 @@ package org.example.util;
 import java.io.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 读写txt文件的工具类
@@ -17,7 +18,7 @@ public class FileUtil {
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(file);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             // 字符串拼接
             while ((strLine = bufferedReader.readLine()) != null) {

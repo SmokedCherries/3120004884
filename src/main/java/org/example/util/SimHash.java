@@ -4,6 +4,7 @@ import org.example.exception.CustomException;
 import com.hankcs.hanlp.HanLP;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class SimHash {
         try{
             //使用MD5来获得字符的hash值
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            return new BigInteger(1, messageDigest.digest(str.getBytes("UTF-8"))).toString(2);
+            return new BigInteger(1, messageDigest.digest(str.getBytes(StandardCharsets.UTF_8))).toString(2);
         }catch(Exception e){
             e.printStackTrace();
             return str;
@@ -44,6 +45,7 @@ public class SimHash {
                     keywordHash += "0";
                 }
             }
+            // 3、加权
             for (int j = 0; j < v.length; j++) {
                 if (keywordHash.charAt(j) == '1') {
                     v[j] += (10 - (i / (size / 10)));
@@ -53,6 +55,7 @@ public class SimHash {
             }
             i++;
         }
+        // 4、降维
         String simHash = "";
         int j = 0;
         while (j < v.length) {

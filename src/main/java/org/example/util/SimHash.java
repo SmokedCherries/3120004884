@@ -87,6 +87,6 @@ public class SimHash {
         // 通过 simHash1 和 simHash2 获得它们的海明距离
         int distance = GetHammingDistance(simHash1, simHash2);
         // 通过海明距离计算出相似度，并返回
-        return 0.01 * (100 - distance * (100 / 128)*1.0);
+        return 0.01 * (100 - distance * 100 / 128);
     }
 }

@@ -34,7 +34,7 @@ public class FileUtil {
 
     public static void writeFile(double txtElem,String txtPath){
         String str = Double.toString(txtElem);
-        str="查重率为："+str;
+        str="查重率为："+str+"%";
         File file = new File(txtPath);
         FileWriter fileWriter;
         try {
